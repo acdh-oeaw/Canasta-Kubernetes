@@ -4,6 +4,7 @@ Kubernetes stack template for Canasta.
 ## Installation
 
 First, make sure you have a Kubernetes cluster ready, and that namespace fina is created.
+The FINA MediaWiki instance will use external MariaDB server.
 
 Then, clone the repository:
 
