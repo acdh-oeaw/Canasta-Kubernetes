@@ -14,3 +14,6 @@ spec:
                   number: 80
             path: /
             pathType: Prefix
+  tls:
+    - hosts:
+        - fina.oeaw.ac.at
