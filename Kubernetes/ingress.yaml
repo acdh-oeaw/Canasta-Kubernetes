@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fina
+spec:
+  rules:
+    - host: fina.oeaw.ac.at
+      http:
+        paths:
+          - backend:
+              service:
+                name: varnish
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
