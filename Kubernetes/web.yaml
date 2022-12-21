@@ -18,9 +18,25 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
-      storage: "200Mi"
+      storage: "2000Mi"
+  volumeMode: Filesystem
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: config-data
+spec:
+  accessModes:
+    - ReadWriteOnce
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: "2000Mi"
   volumeMode: Filesystem
 
 ---
@@ -50,17 +66,17 @@ spec:
             name: canasta-env
         volumeMounts:
         - mountPath: /var/www/mediawiki/w/extensions
-          name: config-volume
+          name: config-data
           subPath: ./extensions
         - mountPath: /var/www/mediawiki/w/skins
-          name: config-volume
+          name: config-data
           subPath: ./skins
         - mountPath: /mediawiki/config
           name: canasta-config
         - mountPath: /mediawiki/config/settings
           name: canasta-settings
         - mountPath: /mediawiki/images
-          name: config-volume
+          name: config-data
           subPath: ./images
         - name: sitemap-data
           mountPath: /mediawiki/sitemap
@@ -71,10 +87,9 @@ spec:
           - name: canasta-settings
             configMap:
               name: canasta-settings
-          - name: config-volume
-            hostPath:
-              path: /canasta/config-data
-              type: DirectoryOrCreate
+          - name: config-data
+            persistentVolumeClaim:
+              claimName: config-data
           - name: sitemap-data
             persistentVolumeClaim:
               claimName: sitemap-data
